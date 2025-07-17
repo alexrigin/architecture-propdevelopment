@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-backend
+  namespace: for-task
+spec:
+  podSelector:
+    matchLabels:
+      role: back-end-api
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: front-end
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: front-end
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-admin-frontend-to-backend
+  namespace: for-task
+spec:
+  podSelector:
+    matchLabels:
+      role: admin-back-end-api
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: admin-front-end
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: admin-front-end
